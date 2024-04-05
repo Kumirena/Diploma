@@ -1,0 +1,43 @@
+{% extends "base_generic.html" %}
+{% load bootstrap %}
+
+{% block content %}
+    <h1>Наши кураторы</h1>
+    <p>Наставники всегда помогут.</p>
+    <p>Обратиться к ним можно по любым вопросам - и по учебным, и по личным.</p>
+
+    <div class="container">
+
+        <form method="GET" style="position:absolute; top:0px; right:100px">
+            <h4>Примените фильтр для поиска</h4>
+            {{ filter.form|bootstrap }}
+            <button type="submit" class="btn btn-primary">Найти</button>
+        </form>
+
+        {% if tutor_list %}
+            {% if filter.qs %}
+            <ul>
+
+              {% for tutor in filter.qs %}
+              <li>
+                <a href="{{ tutor.get_absolute_url }}">{{ tutor.name }}</a> ({{ tutor.education }})
+                <p><strong>Наставляет студентов на курсах:</strong>
+                {% for course in tutor.course_set.all %}
+                    <a href="{{ course.get_absolute_url }}">
+                        {{ course.name }}
+                    </a>
+                {% if not forloop.last %}, {% endif %}
+                {% endfor %}
+                </p>
+              </li>
+              {% endfor %}
+
+            </ul>
+            {% else %}
+                <p>К сожалению, такого куратора нет...</p>
+            {% endif %}
+        {% else %}
+          <p>Кураторов пока нет...</p>
+        {% endif %}
+    </div>
+{% endblock %}

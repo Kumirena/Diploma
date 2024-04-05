@@ -1,0 +1,62 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  {% if student %}
+  <h1>Студент: {{ student.name }}</h1>
+  <p><strong>Электронная почта:</strong> {{ student.email }}.</p>
+  <p><strong>Обучается на курсах:</strong>
+        {% for grade in student.grade_set.all %}
+            <a href="{{ grade.course.get_absolute_url }}">
+                {{ grade.course.name }}
+            </a>
+        {% if not forloop.last %}, {% endif %}
+        {% endfor %}
+  </p>
+  {% for grade in student.grade_set.all %}
+      <h4>{{ grade.course.name }}</h4>
+      <ul>
+      <li>
+          <p><strong>Оценка за 1 ДЗ:</strong>
+          {% if grade.homework1 %}
+              {{ grade.homework1 }}
+          {% else %}
+              пока нет.
+          {% endif %}</p>
+      </li>
+      <li>
+          <p><strong>Оценка за 2 ДЗ:</strong>
+          {% if grade.homework2 %}
+              {{ grade.homework2 }}
+          {% else %}
+              пока нет.
+          {% endif %}
+          </p>
+      </li>
+      <li>
+          <p><strong>Оценка за проект:</strong>
+          {% if grade.project %}
+              {{ grade.project }}
+          {% else %}
+              пока нет.
+          {% endif %}</p>
+      </li>
+      <li>
+          <p><strong>Итоговая оценка за курс:</strong>
+          {% if grade.final_mark %}
+              {{ grade.final_mark|floatformat:2 }}
+          {% else %}
+              пока нет.
+          {% endif %}</p>
+      </li>
+      </ul>
+  {% endfor %}
+  <br>
+  {% if user.is_teacher %}
+      {% for st in student.grade_set.all %}
+      <h5><a href="{% url 'grades_update' st.pk %}">Изменить оценки </a>студента за курс {{ st.course }}</h5>
+      {% endfor %}
+  {% endif %}
+  {% else %}
+    <p> Нет информации о студенте.</p>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "base_generic.html" %}
+{% load bootstrap %}
+
+{% block content %}
+    <h1>Наши курсы</h1>
+    <p>В онлайн-школе обучение проходит по различным специальностям и имеет разную продолжительность:
+        интенсивные семестровые, годовые и полуторагодовые программы.</p>
+    <div class="container">
+
+        <form method="GET">
+            {{ filter.form|bootstrap }}
+            <button type="submit" class="btn btn-primary">Найти</button>
+        </form>
+
+        {% if course_list %}
+            {% if filter.qs %}
+            <ul>
+              {% for course in filter.qs %}
+              <li>
+                <a href="{{ course.get_absolute_url }}">{{ course.name }}</a> ({{course.duration}} месяцев)
+                <p>{{ course.description }}</p>
+                <p>Стоимость: <strong>{{ course.price }} рублей.</strong></p>
+              </li>
+              {% endfor %}
+            </ul>
+            {% else %}
+                <p>К сожалению, такого курса пока нет...</p>
+            {% endif %}
+        {% else %}
+          <p> Нет обучающих курсов.</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base_generic.html" %}
+{% load bootstrap %}
+
+{% block content %}
+    <h1>Наши преподаватели</h1>
+    <p>Преподаватели — самые опытные и понимающие.
+    </p>
+
+    <div class="container">
+
+        <form method="GET">
+            {{ filter.form|bootstrap }}
+            <button type="submit" class="btn btn-primary">Найти</button>
+        </form>
+
+        {% if teacher_list %}
+            {% if filter.qs %}
+            <ul>
+
+              {% for teacher in filter.qs %}
+              <li>
+                <a href="{{ teacher.get_absolute_url }}">{{ teacher.name }}</a> (работает в {{ teacher.company }})
+                <p><strong>Преподаёт на курсах:</strong>
+                {% for course in teacher.course_set.all %}
+                    <a href="{{ course.get_absolute_url }}">
+                        {{ course.name }}
+                    </a>
+                {% if not forloop.last %}, {% endif %}
+                {% endfor %}
+                </p>
+              </li>
+              {% endfor %}
+            </ul>
+            {% else %}
+                <p>К сожалению, такого преподавателя нет...</p>
+            {% endif %}
+        {% else %}
+          <p>К нам пока никто не устроился...</p>
+        {% endif %}
+    </div>
+{% endblock %}

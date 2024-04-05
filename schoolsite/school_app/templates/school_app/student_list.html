@@ -1,0 +1,39 @@
+{% extends "base_generic.html" %}
+{% load bootstrap %}
+
+{% block content %}
+    <h1>Наши cтуденты</h1>
+
+    <div class="container">
+
+        <form method="GET">
+            <h4>Примените фильтр для поиска</h4>
+            {{ filter.form|bootstrap }}
+            <button type="submit" class="btn btn-primary">Найти</button>
+        </form>
+
+        {% if student_list %}
+            {% if filter.qs %}
+            <ul>
+              {% for student in filter.qs %}
+              <li>
+                <a href="{{ student.get_absolute_url }}">{{ student.name }}</a> ({{ student.email }})
+                <p><strong>Обучается на курсах:</strong>
+                {% for course in student.course_set.all %}
+                    <a href="{{ course.get_absolute_url }}">
+                        {{ course.name }}
+                    </a>
+                {% if not forloop.last %}, {% endif %}
+                {% endfor %}
+                </p>
+              </li>
+              {% endfor %}
+            </ul>
+            {% else %}
+                <p>К сожалению, такого студента нет...</p>
+            {% endif %}
+        {% else %}
+          <p>У нас пока никто не обучается...</p>
+        {% endif %}
+    </div>
+{% endblock %}

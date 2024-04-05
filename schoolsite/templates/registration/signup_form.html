@@ -1,0 +1,21 @@
+{% extends 'base_generic.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-8 col-sm-10 col-12">
+      <h2>Зарегистрироваться как
+          {% if user_type == 'student' %}студент{% endif %}
+          {% if user_type == 'mentor' %}куратор{% endif %}
+          {% if user_type == 'teacher' %}преподаватель{% endif %}
+      </h2>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Создать аккаунт</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Добро пожаловать в он-лайн школу!</h1>
+
+  <p>У нас самая прекрасная он-лайн школа.</p>
+
+<h2>О нас</h2>
+
+  <p>Наши показатели:</p>
+  <ul>
+    <li><strong>Количество курсов:</strong> {{ num_courses }}</li>
+    <li><strong>Количество преподавателей:</strong> {{ num_teachers }}</li>
+    <li><strong>Количество студентов:</strong> {{ num_students }}</li>
+  </ul>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  {% if tutor %}
+  <h1>Куратор: {{ tutor.name }}</h1>
+
+  <p><strong>Электронная почта:</strong> {{ tutor.email }}.</p>
+  <p><strong>Образование:</strong> {{ tutor.education }}.</p>
+  <p><strong>Наставляет студентов на курсах:</strong>
+      {% for course in tutor.course_set.all %}
+          <a href="{{ course.get_absolute_url }}">
+              {{ course.name }}
+          </a>
+          {% if not forloop.last %}, {% endif %}
+      {% endfor %}
+  </p>
+
+  {% else %}
+    <p> Нет информации о кураторе.</p>
+  {% endif %}
+{% endblock %}

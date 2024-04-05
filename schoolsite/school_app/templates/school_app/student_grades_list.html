@@ -1,0 +1,48 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+    {% if student_list %}
+        {% for student in student_list %}
+            <h2>Мои оценки: {{ student.name }}</h2>
+            {% for grade in student.grade_set.all %}
+              <h4>{{ grade.course.name }}</h4>
+              <ul>
+              <li>
+                  <p><strong>Оценка за 1 ДЗ:</strong>
+                  {% if grade.homework1 %}
+                      {{ grade.homework1 }}
+                  {% else %}
+                      пока нет.
+                  {% endif %}</p>
+              </li>
+              <li>
+                  <p><strong>Оценка за 2 ДЗ:</strong>
+                  {% if grade.homework2 %}
+                      {{ grade.homework2 }}
+                  {% else %}
+                      пока нет.
+                  {% endif %}
+                  </p>
+              </li>
+              <li>
+                  <p><strong>Оценка за проект:</strong>
+                  {% if grade.project %}
+                      {{ grade.project }}
+                  {% else %}
+                      пока нет.
+                  {% endif %}</p>
+              </li>
+              <li>
+                  <p><strong>Итоговая оценка за курс:</strong>
+                  {% if grade.final_mark %}
+                      {{ grade.final_mark|floatformat:2 }}
+                  {% else %}
+                      пока нет.
+                  {% endif %}</p>
+              </li>
+              </ul>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  {% if teacher %}
+  <h1>Преподаватель: {{ teacher.name }}</h1>
+
+  <p><strong>Электронная почта:</strong> {{ teacher.email }}.</p>
+  <p><strong>Место основной работы:</strong> {{ teacher.company }}.</p>
+  <p><strong>Опыт:</strong> {{ teacher.experience }} лет.</p>
+  <p><strong>Образование:</strong> {{ teacher.education }}.</p>
+  <p><strong>Роль:</strong> {{ teacher.role }}.</p>
+  <p><strong>Преподаёт на курсах:</strong>
+      {% for course in teacher.course_set.all %}
+          <a href="{{ course.get_absolute_url }}">
+              {{ course.name }}
+          </a>
+          {% if not forloop.last %}, {% endif %}
+      {% endfor %}
+  </p>
+
+  {% else %}
+    <p>Пока что нет информации о преподавателе.</p>
+  {% endif %}
+{% endblock %}

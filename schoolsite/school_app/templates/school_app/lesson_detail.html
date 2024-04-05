@@ -1,0 +1,28 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  {% if lesson %}
+
+  <h1>Занятие: {{ lesson.title }}</h1>
+  <p><strong>Курс:</strong>
+      <a href="{{ lesson.course_id.get_absolute_url }}">
+              {{ lesson.course_id.name }}
+      </a>
+  </p>
+  <p><strong>Преподаватель:</strong>
+      <a href="{{ lesson.teacher_id.get_absolute_url }}">
+              {{ lesson.teacher_id.name }}
+      </a>
+  </p>
+  <p><strong>Ссылка на занятие:</strong>
+      <a href="{{ lesson.link }}">
+          видео.
+      </a>
+  </p>
+  {% if user.is_teacher %}
+      <p><strong><a href="{% url 'lesson_delete' lesson.pk %}">Удалить занятие</a></strong></p>
+  {% endif %}
+  {% else %}
+    <p> Нет информации о занятии.</p>
+  {% endif %}
+{% endblock %}

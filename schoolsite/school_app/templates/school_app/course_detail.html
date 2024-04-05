@@ -1,0 +1,46 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  {% if course %}
+  <h1>Курс: {{ course.name }}</h1>
+
+  <p><strong>Описание:</strong> {{ course.description }}</p>
+  <p><strong>Длительность:</strong> {{ course.duration }} месяцев.</p>
+  <p><strong>Стоимость:</strong> {{ course.price }} рублей.</p>
+
+  {% if course.teacher.all %}
+  <p><strong>Преподаватели:</strong>
+      {% for teacher in course.teacher.all %}
+          <a href="{{ teacher.get_absolute_url }}">
+              {{ teacher.name }}
+          </a> ({{ teacher.company }})
+          {% if not forloop.last %}, {% endif %}
+      {% endfor %}
+  </p>
+  {% endif %}
+
+  {% if course.tutor.all %}
+  <p><strong>Кураторы:</strong>
+      {% for tutor in course.tutor.all %}
+          <a href="{{ tutor.get_absolute_url }}">
+              {{ tutor.name }}
+          </a> ({{ tutor.education }})
+          {% if not forloop.last %}, {% endif %}
+      {% endfor %}
+  </p>
+  {% endif %}
+
+  <h4> Темы</h4>
+  <ul>
+    {% if course.lesson_set.all %}
+        {% for lesson in course.lesson_set.all %}
+            <li><p>{{ lesson.title }}</p></li>
+        {% endfor %}
+    {% else %}
+        <li><p>Темы пока не добавлены.</p></li>
+    {% endif %}
+  </ul>
+  {% else %}
+    <p>Нет обучающих курсов, но они обязательно появятся.</p>
+  {% endif %}
+{% endblock %}
